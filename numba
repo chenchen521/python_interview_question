@@ -1,0 +1,35 @@
+import timeit
+ 
+# 待测试的函数
+def f(nums):
+    l = []
+    n = 2
+    while len(l) < nums:
+        for i in l:
+            if n % i == 0:
+                break
+        else:
+            l.append(n)
+        n += 1
+    return l
+
+from numba import jit
+
+@jit
+def f1(nums):
+    l = []
+    n = 2
+    while len(l) < nums:
+        for i in l:
+            if n % i == 0:
+                break
+        else:
+            l.append(n)
+        n += 1
+    return l
+# stmt 需要测试的函数或语句，字符串形式
+# setup 运行的环境，本例子中表示 if __name__ == '__main__':
+# number 被测试的函数或语句，执行的次数，本例表示执行100000次add()。省缺则默认是10000次
+# 综上：此函数表示在if __name__ == '__main__'的条件下，执行100000次add()消耗的时间
+t = timeit.timeit(stmt="f1(100)", setup="from  __main__ import f1", number=100000)
+print(t)
